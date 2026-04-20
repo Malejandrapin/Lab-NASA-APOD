@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,22 +10,30 @@
     <header>
         <h1>NASA APOD</h1>
         <p>Astronomy Picture of the Day</p>
-        <div class="controles">
-            <input type="date" id="selccion-fecha"> 
-            <button id="btn-buscar">Buscar</button>
-        </div>
     </header>
     <main>
-        <h2 id="titulo"> Cargando el cosmos</h2>
-        <div id="contenedor-imagen"></div>
+        <div id="loader" style="display:none; color: yellow;">Cargando el universo...</div>
+        <div id="mensaje-error" style="color: red;"></div>
+
+        <h2 id="titulo">Cargando el cosmos...</h2>
         <p id="fecha-imagen"></p>
+        <div id="contenedor-imagen"></div>
+        <button id="btn-favoritos">⭐ Guardar en favoritos</button>
         <p id="explicacion-imagen"></p>
     </main>
+
     <aside id="seccion-favoritos">
+        <h3>Buscar por fecha</h3>
+        <input type="date" id="seleccion-fecha">
+        <button id="btn-buscar">Buscar Imagen</button>
+        
         <h3>Mis favoritos</h3>
         <ul id="lista-favoritos"></ul>
     </aside>
 
+    <footer>
+         <p>Integrantes: Maira Alejandra, Manuel Alejandro y Andrés Díaz</p>
+    </footer>
     <script src="app.js"></script>
 </body>
 </html>
