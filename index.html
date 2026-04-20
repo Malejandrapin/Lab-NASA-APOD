@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NASA APOD</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>NASA APOD</h1>
+        <p>Astronomy Picture of the Day</p>
+        <div class="controles">
+            <input type="date" id="selccion-fecha"> 
+            <button id="btn-buscar">Buscar</button>
+        </div>
+    </header>
+    <main>
+        <h2 id="titulo"> Cargando el cosmos</h2>
+        <div id="contenedor-imagen"></div>
+        <p id="fecha-imagen"></p>
+        <p id="explicacion-imagen"></p>
+    </main>
+    <aside id="seccion-favoritos">
+        <h3>Mis favoritos</h3>
+        <ul id="lista-favoritos"></ul>
+    </aside>
+
+    <script src="app.js"></script>
+</body>
+</html>
