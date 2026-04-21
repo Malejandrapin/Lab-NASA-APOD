@@ -13,20 +13,21 @@ const listaFavoritos = document.getElementById('lista-favoritos');
 const botonBuscar = document.getElementById('btn-buscar');
 
 
-let apodActual = null; 
+let apodActual = null;
 
+// botón de buscar APOD por fecha
 botonBuscar.addEventListener('click', () => {
     const fechaSeleccionada = seleccionFecha.value;
     if (fechaSeleccionada) {
         cargarAPOD(fechaSeleccionada);
-    }else{
+    } else {
         alert('Por favor, selecciona una fecha válida.');
     }
 });
 
-// Inicializamos la aplicación
+// Inicializamos la aplicación, cargamos el APOD del día actual y los favoritos al cargar la página
 document.addEventListener('DOMContentLoaded', () => {
-    const hoy = new Date().toISOString().split('T')[0]; 
+    const hoy = new Date().toISOString().split('T')[0];
     seleccionFecha.max = hoy;
     seleccionFecha.value = hoy;
     cargarFavoritos();
@@ -56,25 +57,26 @@ function mostrarAPOD(data) {
     titulo.textContent = data.title;
     explicacion.textContent = data.explanation;
     seleccionFecha.value = data.date;
-   
+
     imagen.innerHTML = "";
     if (data.media_type === 'image') {
         imagen.innerHTML = `<img src="${data.url}" alt="${data.title}" width="100%" height="auto"> `;
-    }else{
+    } else {
         imagen.innerHTML = `<iframe src="${data.url}" frameborder="0" allowfullscreen></iframe>`;
     }
 }
-
+// Funcion para agregar a favoritos
 botonFavoritos.addEventListener('click', () => {
-    if(!apodActual){
+    if (!apodActual) {
         alert('No hay una imagen cargada para agregar a favoritos.');
         return;
     }
     let favorito = JSON.parse(localStorage.getItem('nasa_favs')) || [];
-    if(!favorito.some(item => item.date === apodActual.date)){
+    if (!favorito.some(item => item.date === apodActual.date)) {
         favorito.push({
             date: apodActual.date,
             title: apodActual.title,
+            media_type: apodActual.media_type
         });
         localStorage.setItem('nasa_favs', JSON.stringify(favorito));
         cargarFavoritos();
@@ -83,33 +85,43 @@ botonFavoritos.addEventListener('click', () => {
         alert('¡Ya está en favoritos!');
     }
 });
+// Función para cargar favoritos desde localStorage y mostrarlos en la lista
 function cargarFavoritos() {
     const favoritos = JSON.parse(localStorage.getItem('nasa_favs')) || [];
     listaFavoritos.innerHTML = '';
-    favoritos.forEach(fav => {
+    favoritos.forEach((fav, index) => {
         const li = document.createElement('li');
-        li.textContent = `${fav.date} - ${fav.title}`;
-        li.style.cursor = 'pointer';
-        li.addEventListener('click', () => {
+        const spanText = document.createElement('span');
+        spanText.textContent = `${fav.date} - ${fav.title} `;
+        spanText.style.cursor = 'pointer';
+        spanText.style.flexGrow = '1';
+
+        spanText.addEventListener('click', () => {
             cargarAPOD(fav.date);
         });
+
+        const btnEliminar = document.createElement('button');
+        btnEliminar.id = 'btnEliminar';
+        btnEliminar.textContent = '❌';
+
+        btnEliminar.addEventListener('click', (e) => {
+            e.stopPropagation();
+            eliminarFavorito(index);
+        });
+        li.appendChild(spanText);
+        li.appendChild(btnEliminar);
         listaFavoritos.appendChild(li);
-    }); 
+    });
+
 }
-
-function showLoader(show) {
-    const loader = document.getElementById('loader');
-    loader.style.display = show ? 'block' : 'none';
-}   
-
-function eliminarFavorito() {
-    const fecha = seleccionFecha.value;
-    let favoritos = JSON.parse(localStorage.getItem('nasa_favs')) || [];
-    favoritos = favoritos.filter(fav => fav.date !== fecha);
-    localStorage.setItem('nasa_favs', JSON.stringify(favoritos));
+// Función para eliminar un favorito
+function eliminarFavorito(index) {
+    let favorito = JSON.parse(localStorage.getItem('nasa_favs')) || [];
+    favorito.splice(index, 1);
+    localStorage.setItem('nasa_favs', JSON.stringify(favorito));
     cargarFavoritos();
-    alert('¡Eliminado de favoritos!');
-}   
-const btnEliminarFavorito = document.getElementById('btn-eliminar-favorito');
-btnEliminarFavorito.addEventListener('click', eliminarFavorito);        
-
+} 
+ function showLoader(show) {
+        const loader = document.getElementById('loader');
+        loader.style.display = show ? 'block' : 'none';
+    }

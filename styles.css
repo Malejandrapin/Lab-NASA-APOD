@@ -44,7 +44,7 @@ input[type="date"] {
     margin-right: 10px;
 }
 
-button {
+#btn-buscar {
     background-color: #1e90ff;
     color: white; padding: 10px 20px;
     border: none; border-radius: 5px;
@@ -119,9 +119,20 @@ aside h3{
     border-radius: 5px;
     cursor: pointer;
     border-left: 3px solid #ffd700;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
 }
 #lista-favoritos li:hover {
     background-color: #2a3b7d;
+}
+#btnEliminar{
+    margin-left: 10px;
+    cursor: pointer;
+    border: none;
+    background-color: transparent;
+    
 }
 
 footer {
