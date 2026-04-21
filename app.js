@@ -76,6 +76,7 @@ botonFavoritos.addEventListener('click', () => {
         favorito.push({
             date: apodActual.date,
             title: apodActual.title,
+            url: apodActual.url,
             media_type: apodActual.media_type
         });
         localStorage.setItem('nasa_favs', JSON.stringify(favorito));
@@ -91,6 +92,12 @@ function cargarFavoritos() {
     listaFavoritos.innerHTML = '';
     favoritos.forEach((fav, index) => {
         const li = document.createElement('li');
+        const imagen = document.createElement('img');
+        imagen.src = fav.url;
+        imagen.alt = fav.title;
+        imagen.width = 50;
+        imagen.height = 50;
+        imagen.style.marginRight = '10px';
         const spanText = document.createElement('span');
         spanText.textContent = `${fav.date} - ${fav.title} `;
         spanText.style.cursor = 'pointer';
@@ -108,6 +115,7 @@ function cargarFavoritos() {
             e.stopPropagation();
             eliminarFavorito(index);
         });
+        li.appendChild(imagen);
         li.appendChild(spanText);
         li.appendChild(btnEliminar);
         listaFavoritos.appendChild(li);
